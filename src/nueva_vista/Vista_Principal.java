@@ -132,9 +132,10 @@ public class Vista_Principal extends JFrame {
 		setTitle("Loan Management System (LMS)");
 		
 		init();
-		handleEvents();
-		authenticatedUser("Usuario De Prueba");  ///// update this...................
 		this.controller = controller;
+		handleEvents();
+		authenticatedUser();  ///// update this...................
+		
 		
 		
 	}
@@ -142,8 +143,8 @@ public class Vista_Principal extends JFrame {
 	
 	
 	
-	private void authenticatedUser(String user) {
-		currentUser.setText(user);
+	private void authenticatedUser() {
+		currentUser.setText(controller.getModelo().getEmpleado().getNombre_Persona()+ " "+controller.getModelo().getEmpleado().getApellido());
 	}
 	
 	
@@ -575,7 +576,7 @@ public class Vista_Principal extends JFrame {
 		
 		panelDePagos = new JPanel();
 		panelDePagos.setForeground(new Color(160, 82, 45));
-		panelDePagos.setBounds(221, 149, 754, 426); // uncomment this to edit the panel **********************************************
+		//panelDePagos.setBounds(221, 149, 754, 426); // uncomment this to edit the panel **********************************************
 		panelDePagos.setBackground(Color.DARK_GRAY);           
 		panelDePagos.setBorder(new EtchedBorder(EtchedBorder.RAISED, new Color(102, 153, 153), new Color(102, 153, 153)));
 		mainDataPanel.add(panelDePagos);
@@ -834,8 +835,8 @@ public class Vista_Principal extends JFrame {
 		currentUser = new JLabel("");
 		currentUser.setBorder(new LineBorder(new Color(204, 204, 153), 1, true));
 		currentUser.setFont(new Font("Serif", Font.BOLD | Font.ITALIC, 18));
-		currentUser.setForeground(new Color(255, 153, 51));
-		currentUser.setBounds(1134, 11, 211, 31);
+		currentUser.setForeground(new Color(30, 153, 51));
+		currentUser.setBounds(1090, 11, 255, 31);
 		mainInternalFrame.getContentPane().add(currentUser);
 		
 		lblNombre_1 = new JLabel("Nombre");
@@ -980,7 +981,7 @@ public class Vista_Principal extends JFrame {
 		btnSometerPago.setFont(new Font("Serif", Font.PLAIN, 13));
 		btnSometerPago.setBorder(UIManager.getBorder("RadioButton.border"));
 		btnSometerPago.setForeground(new Color(102, 51, 204));
-		btnSometerPago.setBounds(472, 354, 105, 23);
+		btnSometerPago.setBounds(673, 392, 71, 23);
 		panelDePagos.add(btnSometerPago);
 		
 		JLabel lblMonto = new JLabel("Monto");
@@ -1049,8 +1050,15 @@ public class Vista_Principal extends JFrame {
 		btnBucar.setForeground(new Color(102, 51, 204));
 		btnBucar.setFont(new Font("Serif", Font.PLAIN, 13));
 		btnBucar.setBorder(UIManager.getBorder("RadioButton.border"));
-		btnBucar.setBounds(599, 42, 105, 23);
+		btnBucar.setBounds(599, 42, 64, 20);
 		panelDePagos.add(btnBucar);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.setForeground(new Color(204, 0, 51));
+		btnSalir.setFont(new Font("Serif", Font.PLAIN, 13));
+		btnSalir.setBorder(UIManager.getBorder("RadioButton.border"));
+		btnSalir.setBounds(592, 393, 71, 23);
+		panelDePagos.add(btnSalir);
 		
 		panelSearchClient = new JPanel();
 		panelSearchClient.setBackground(SystemColor.controlHighlight);
@@ -1099,7 +1107,7 @@ public class Vista_Principal extends JFrame {
 		panelMensaje = new JPanel();
 		panelMensaje.setBackground(Color.DARK_GRAY);
 		panelMensaje.setBorder(new EtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 51), new Color(51, 51, 51)));
-		panelMensaje.setBounds(0, 0, 1350, 119);
+		panelMensaje.setBounds(0, 0, 1350, 119); // uncomment this to edit
 		mainDataPanel.add(panelMensaje);
 		panelMensaje.setLayout(null);
 		
@@ -1198,7 +1206,7 @@ public class Vista_Principal extends JFrame {
 				  imageLabel.setVisible(false);
 				  panelSolicitudes.setVisible(false);	 
 				  lableMensaje.setBounds(10, 24, 1330, 67);
-				  panelDePagos.setBounds(302, 130, 754, 426); 
+				  panelDePagos.setBounds(302, 160, 754, 426); 
 				  panelMensaje.setBounds(0, 0, 1350, 119);
 				 
 				  panelSearchClient.setVisible(true);

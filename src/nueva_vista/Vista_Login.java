@@ -86,14 +86,14 @@ public class Vista_Login extends JFrame {
 		
 		firstLabelImage = new JLabel("");
 		firstLabelImage.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		firstLabelImage.setIcon(new ImageIcon("C:\\Users\\Maquendi\\workspace\\SistemaDePrestamo\\background-banner-for-website4.jpg"));
+		firstLabelImage.setIcon(new ImageIcon("C:\\image\\fondo.jpg"));
 		firstLabelImage.setBounds(10, 11, 1173, 676);
 		contentPane.add(firstLabelImage);
 		
 		
 		panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.DARK_GRAY, Color.GRAY));
-		panel.setBounds(30, 44, 1131, 600);
+		//panel.setBounds(30, 44, 1131, 600);
 		
 		
 		
@@ -138,7 +138,7 @@ public class Vista_Login extends JFrame {
 		label.setBorder(new EtchedBorder(EtchedBorder.RAISED, new Color(51, 51, 51), new Color(102, 102, 102)));
 		label.setToolTipText("User Authentication");
 		label.setIcon(new ImageIcon("C:\\Users\\Maquendi\\workspace\\SistemaDePrestamo\\fondo3.png"));
-		label.setBounds(0, 0, 1131, 600);
+		//label.setBounds(0, 0, 1131, 600);
 		panel.add(label);
 		
 	
@@ -182,7 +182,7 @@ public class Vista_Login extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
-				
+			
 				enterBoton.setVisible(false);
 				userName.setVisible(false);
 				pass.setVisible(false);
@@ -195,8 +195,11 @@ public class Vista_Login extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+				panel.setBounds(30, 44, 1131, 600);
 				userName.setVisible(true);
+				panel.setVisible(true);
 				pass.setVisible(true);
+				label.setBounds(0, 0, 1131, 600);
 				enterBoton.setVisible(true);
 				firstLabelImage.setVisible(false);
 				
@@ -215,6 +218,8 @@ public class Vista_Login extends JFrame {
 				if(key == KeyEvent.VK_ENTER) {
 					userName.setVisible(true);
 					pass.setVisible(true);
+					panel.setBounds(30, 44, 1131, 600);
+					label.setBounds(0, 0, 1131, 600);
 					enterBoton.setVisible(true);
 					firstLabelImage.setVisible(false);
 					

@@ -167,6 +167,27 @@ public class Vista_Admin extends JFrame {
 	private JCheckBox chckbxAddComment;
 	private JTextPane textPaneReason;
 	private JLabel lblDeclineReason;
+	private JLabel userNamelable;
+	private JPanel panel_5;
+	private JLabel lblNewLabel;
+	private JTextField textField;
+	private JTable table_1;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JLabel lblPlazoenMes;
+	private JLabel lblCuotasMensuales;
+	private JTextField textField_4;
+	private JLabel label_5;
+	private JLabel label_6;
+	private JLabel label_7;
+	private JLabel label_8;
+	private JLabel label_9;
+	
+	
+	
+	
+	
 	
 
 	public Vista_Admin(Controller controller) {
@@ -191,7 +212,7 @@ public class Vista_Admin extends JFrame {
 		panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "menu", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-		panel.setBackground(Color.DARK_GRAY);
+		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(0, 0, 1366, 697);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -279,7 +300,7 @@ public class Vista_Admin extends JFrame {
 		internalFrame_side = new JInternalFrame("");
 		internalFrame_side.getContentPane().setBackground(new Color(0, 0, 51));
 		internalFrame_side.setBorder(null);
-		// internalFrame_side.setBounds(0, 91, 390, 606); //uncomment this to edit
+		 internalFrame_side.setBounds(0, 91, 390, 606); //uncomment this to edit
 		panel.add(internalFrame_side);
 		internalFrame_side.setVisible(true);
 		internalFrame_side.getContentPane().setLayout(null);
@@ -307,7 +328,7 @@ public class Vista_Admin extends JFrame {
 
 		frameDesplegable = new JInternalFrame("");
 		frameDesplegable.setBorder(null);
-		frameDesplegable.setBounds(337,75, 371, 388);
+		//frameDesplegable.setBounds(337,75, 371, 388);
 		panel.add(frameDesplegable);
 		frameDesplegable.setVisible(true);
 		cancelInternalFrameMotion(frameDesplegable);
@@ -328,6 +349,8 @@ public class Vista_Admin extends JFrame {
 		scrollPane.setBackground(new Color(51, 102, 102));
 		scrollPane.setBounds(10, 11, 948, 195);
 		solicitudPendienteFrame.getContentPane().add(scrollPane);
+		
+		scrollPane.getViewport().setBackground(Color.DARK_GRAY);
 
 		String[] columns = new String[] { "No. Sol", "Fecha ", "Nombre", "Cedula", "Empresa", "Tiempo L", "Sueldo",
 				"Monto Sol", "Plazo", "Tipo P" };
@@ -347,6 +370,7 @@ public class Vista_Admin extends JFrame {
 		processTable(table);
 		scrollPane.setViewportView(table);
 
+		
 		panel_3 = new JPanel();
 		panel_3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panel_3.setBackground(Color.LIGHT_GRAY);
@@ -610,9 +634,7 @@ public class Vista_Admin extends JFrame {
 		panel_3.add(lblDeclineReason);
 		
 		chckbxAddComment = new JCheckBox("Add Comment");
-		
-		
-		
+
 		chckbxAddComment.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		chckbxAddComment.setBounds(612, 317, 111, 23);
 		panel_3.add(chckbxAddComment);
@@ -988,6 +1010,9 @@ public class Vista_Admin extends JFrame {
 		internalFrame_side.getContentPane().add(lblRegistrarUser);
 
 		lblCalculadoraDePrestamos = new JLabel("CALCULADORA DE PRESTAMOS");
+		
+		
+		
 		lblCalculadoraDePrestamos.setForeground(new Color(255, 255, 255));
 		lblCalculadoraDePrestamos.setBorder(null);
 		lblCalculadoraDePrestamos.setIcon(
@@ -1029,12 +1054,13 @@ public class Vista_Admin extends JFrame {
 		lblTime.setBounds(1014, 2, 342, 53);
 		panel_1.add(lblTime);
 
-		JLabel lblNewLabel = new JLabel("Maquendi Beltran");
-		lblNewLabel.setForeground(new Color(0, 102, 102));
-		lblNewLabel.setFont(new Font("Verdana", Font.ITALIC, 20));
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Maquendi\\workspace\\SistemaDePrestamo\\if_User_22743.png"));
-		lblNewLabel.setBounds(733, 0, 240, 57);
-		panel_1.add(lblNewLabel);
+		userNamelable = new JLabel("");
+		
+		userNamelable.setForeground(new Color(0, 102, 102));
+		userNamelable.setFont(new Font("Verdana", Font.ITALIC, 20));
+		userNamelable.setIcon(new ImageIcon("C:\\Users\\Maquendi\\workspace\\SistemaDePrestamo\\if_User_22743.png"));
+		userNamelable.setBounds(733, 0, 240, 57);
+		panel_1.add(userNamelable);
 
 		txtSearchForPeople = new JTextField();
 		txtSearchForPeople.setMargin(new Insets(1, 1, 1, 1));
@@ -1042,9 +1068,9 @@ public class Vista_Admin extends JFrame {
 		txtSearchForPeople.setText("BUSCAR PERSONA");
 		txtSearchForPeople.setFont(new Font("Verdana", Font.ITALIC, 18));
 		txtSearchForPeople.setForeground(Color.WHITE);
-		txtSearchForPeople.setBackground(Color.LIGHT_GRAY);
+		txtSearchForPeople.setBackground(new Color(153, 102, 255));
 		txtSearchForPeople.setBorder(new LineBorder(new Color(153, 204, 204), 2, true));
-		txtSearchForPeople.setBounds(335, 16, 374, 24);
+		txtSearchForPeople.setBounds(335, 12, 374, 34);
 		panel_1.add(txtSearchForPeople);
 		txtSearchForPeople.setColumns(10);
 
@@ -1070,10 +1096,220 @@ public class Vista_Admin extends JFrame {
 		label.setBounds(0, 95, 21, 602);
 		panel.add(label);
 
-		setVisible(true);
+		this.userNamelable.setText(controller.getModelo().getEmpleado().getNombre_Persona() + " "+controller.getModelo().getEmpleado().getApellido());
+		
+		panel_5 = new JPanel();
+		panel_5.setBackground(new Color(51, 51, 51));
+		//panel_5.setBounds(400, 101, 956, 585); //uncomment this to edit....
+		panel.add(panel_5);
+		panel_5.setLayout(null);
+		
+		lblNewLabel = new JLabel("Cantidad del Prestamo");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Verdana", Font.PLAIN, 14));
+		lblNewLabel.setBounds(31, 49, 178, 28);
+		panel_5.add(lblNewLabel);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textField.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.DARK_GRAY, Color.DARK_GRAY));
+		textField.setForeground(new Color(0, 0, 51));
+		textField.setBackground(Color.WHITE);
+		textField.setBounds(213, 50, 189, 30);
+		panel_5.add(textField);
+		textField.setColumns(10);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.getViewport().setBackground(Color.DARK_GRAY);
+		scrollPane_2.setBounds(10, 292, 936, 282);
+		panel_5.add(scrollPane_2);
+		
+		table_1 = new JTable();
+		table_1.setSelectionForeground(new Color(102, 51, 51));
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"No.", "Pago", "Fecha De Pago", "Cuota", "Intereses", "Amortizacion", "Amortizado", "Pendiente"
+			}
+		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables = new boolean[] {
+				false, false, true, false, true, false, false, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table_1.getColumnModel().getColumn(0).setResizable(false);
+		table_1.getColumnModel().getColumn(0).setPreferredWidth(40);
+		table_1.getColumnModel().getColumn(1).setResizable(false);
+		table_1.getColumnModel().getColumn(1).setPreferredWidth(76);
+		table_1.getColumnModel().getColumn(2).setPreferredWidth(100);
+		table_1.getColumnModel().getColumn(3).setResizable(false);
+		table_1.getColumnModel().getColumn(5).setResizable(false);
+		table_1.getColumnModel().getColumn(6).setResizable(false);
+		table_1.setBackground(new Color(51, 51, 51));
+		table_1.setGridColor(new Color(153, 204, 204));
+		table_1.setForeground(new Color(102, 153, 255));
+		table_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		scrollPane_2.setViewportView(table_1);
+		
+		JLabel lblTasaDeInteres = new JLabel("Tasa De Interes Anual");
+		lblTasaDeInteres.setForeground(Color.WHITE);
+		lblTasaDeInteres.setFont(new Font("Verdana", Font.PLAIN, 14));
+		lblTasaDeInteres.setBounds(31, 82, 178, 28);
+		panel_5.add(lblTasaDeInteres);
+		
+		textField_1 = new JTextField();
+		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textField_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.DARK_GRAY, Color.DARK_GRAY));
+		textField_1.setForeground(new Color(0, 0, 51));
+		textField_1.setColumns(10);
+		textField_1.setBackground(Color.WHITE);
+		textField_1.setBounds(213, 80, 189, 30);
+		panel_5.add(textField_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textField_2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.DARK_GRAY, Color.DARK_GRAY));
+		textField_2.setForeground(new Color(0, 0, 51));
+		textField_2.setColumns(10);
+		textField_2.setBackground(Color.WHITE);
+		textField_2.setBounds(213, 110, 189, 30);
+		panel_5.add(textField_2);
+		
+		textField_3 = new JTextField();
+		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textField_3.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.DARK_GRAY, Color.DARK_GRAY));
+		textField_3.setForeground(new Color(0, 0, 51));
+		textField_3.setColumns(10);
+		textField_3.setBackground(Color.WHITE);
+		textField_3.setBounds(213, 140, 189, 30);
+		panel_5.add(textField_3);
+		
+		lblPlazoenMes = new JLabel("Plazo(En Mes)");
+		lblPlazoenMes.setForeground(Color.WHITE);
+		lblPlazoenMes.setFont(new Font("Verdana", Font.PLAIN, 14));
+		lblPlazoenMes.setBounds(31, 110, 178, 28);
+		panel_5.add(lblPlazoenMes);
+		
+		lblCuotasMensuales = new JLabel("Cuotas Mensuales");
+		lblCuotasMensuales.setForeground(Color.WHITE);
+		lblCuotasMensuales.setFont(new Font("Verdana", Font.PLAIN, 14));
+		lblCuotasMensuales.setBounds(31, 142, 178, 28);
+		panel_5.add(lblCuotasMensuales);
+		
+		JButton btnNewButton_1 = new JButton("Ver Calendario de Amortizacion Anual");
+		btnNewButton_1.setBorder(UIManager.getBorder("RadioButton.border"));
+		btnNewButton_1.setBounds(412, 51, 219, 28);
+		panel_5.add(btnNewButton_1);
+		
+		JButton btnCrearOActualizar = new JButton("Crear o Actualizar Cronograma");
+		btnCrearOActualizar.setBorder(UIManager.getBorder("RadioButton.border"));
+		btnCrearOActualizar.setBounds(412, 98, 219, 28);
+		panel_5.add(btnCrearOActualizar);
+		
+		JButton btnAgregarPrepagos = new JButton("Agregar Prepagos");
+		btnAgregarPrepagos.setBorder(UIManager.getBorder("RadioButton.border"));
+		btnAgregarPrepagos.setBounds(412, 142, 219, 28);
+		panel_5.add(btnAgregarPrepagos);
+		
+		JLabel lblPrimerPago = new JLabel("Primer Pago");
+		lblPrimerPago.setForeground(Color.WHITE);
+		lblPrimerPago.setFont(new Font("Verdana", Font.PLAIN, 16));
+		lblPrimerPago.setBounds(31, 228, 102, 28);
+		panel_5.add(lblPrimerPago);
+		
+		JDateChooser dateChooser_1 = new JDateChooser();
+		dateChooser_1.setBackground(new Color(204, 204, 255));
+		dateChooser_1.setBounds(131, 228, 194, 28);
+		panel_5.add(dateChooser_1);
+		
+		JPanel panel_6 = new JPanel();
+		panel_6.setBorder(null);
+		panel_6.setBackground(new Color(0, 0, 51));
+		panel_6.setBounds(660, 49, 286, 121);
+		panel_5.add(panel_6);
+		panel_6.setLayout(null);
+		
+		JLabel lblNewLabel_3 = new JLabel("Rate (Per Periode)");
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel_3.setBounds(23, 1, 114, 22);
+		panel_6.add(lblNewLabel_3);
+		
+		JLabel lblNumberOfPayments = new JLabel("Number of Payments");
+		lblNumberOfPayments.setForeground(new Color(255, 255, 255));
+		lblNumberOfPayments.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNumberOfPayments.setBounds(10, 24, 127, 22);
+		panel_6.add(lblNumberOfPayments);
+		
+		JLabel lblTotalPayments = new JLabel("Total Payments");
+		lblTotalPayments.setForeground(new Color(255, 255, 255));
+		lblTotalPayments.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTotalPayments.setBounds(40, 47, 97, 22);
+		panel_6.add(lblTotalPayments);
+		
+		JLabel lblTotalInterest = new JLabel("Total Interest");
+		lblTotalInterest.setForeground(new Color(255, 255, 255));
+		lblTotalInterest.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTotalInterest.setBounds(53, 70, 84, 22);
+		panel_6.add(lblTotalInterest);
+		
+		JLabel lblEstInterestSavings = new JLabel("Est. Interest Savings");
+		lblEstInterestSavings.setForeground(new Color(255, 255, 255));
+		lblEstInterestSavings.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblEstInterestSavings.setBounds(10, 93, 127, 22);
+		panel_6.add(lblEstInterestSavings);
+		
+		label_5 = new JLabel("0.155%");
+		label_5.setForeground(Color.WHITE);
+		label_5.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_5.setBounds(192, 1, 84, 22);
+		panel_6.add(label_5);
+		
+		label_6 = new JLabel("150");
+		label_6.setForeground(Color.WHITE);
+		label_6.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_6.setBounds(192, 24, 84, 22);
+		panel_6.add(label_6);
+		
+		label_7 = new JLabel("157,785.59");
+		label_7.setForeground(Color.WHITE);
+		label_7.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_7.setBounds(192, 47, 84, 22);
+		panel_6.add(label_7);
+		
+		label_8 = new JLabel("57,785.59");
+		label_8.setForeground(Color.WHITE);
+		label_8.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_8.setBounds(192, 70, 84, 22);
+		panel_6.add(label_8);
+		
+		label_9 = new JLabel("4,606.5");
+		label_9.setForeground(Color.WHITE);
+		label_9.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_9.setBounds(192, 95, 84, 22);
+		panel_6.add(label_9);
+		
+		textField_4 = new JTextField();
+		textField_4.setBackground(new Color(153, 153, 204));
+		textField_4.setBounds(412, 230, 219, 30);
+		panel_5.add(textField_4);
+		textField_4.setColumns(10);
 		handleEvents();
+		setVisible(true);
 	}
 
+	
+	
+	
 	private void handleEvents() {
 
 		addWindowListener(new WindowAdapter() {
@@ -1096,6 +1332,7 @@ public class Vista_Admin extends JFrame {
 				registerUserFrame.setVisible(false);
 				findUserFrame.setVisible(false);
 				frameDesplegable.setVisible(false);
+				panel_5.setVisible(false);
 				setTime();
 				lista = controller.getNames();
 			}
@@ -1126,6 +1363,18 @@ public class Vista_Admin extends JFrame {
 			}
 		});
 
+		
+		lblCalculadoraDePrestamos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				panel_5.setVisible(true);
+			}
+		});
+		
+		
+		
+		
 		mnEditar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {

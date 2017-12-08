@@ -40,6 +40,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
+import java.awt.SystemColor;
 
 public class Vista_Modificador extends JFrame implements Observador{
 
@@ -89,7 +93,8 @@ public class Vista_Modificador extends JFrame implements Observador{
     private JButton btnGuardarCambios;
     private JComboBox<String> plazoCombo;
     private Modelo modelo;
-
+    private JTextField txtEstadoSolicitud;
+    private JTextPane commentTextPane;
     
     
 
@@ -169,7 +174,6 @@ public class Vista_Modificador extends JFrame implements Observador{
 			  }else if(getTitle().equals("Edicion de Solicitud")) {
 				  
 				  if ( txtBuscar.getText().isEmpty()) {
-					  
 					  JOptionPane.showMessageDialog(null, "The Search Field has no value");
 					  txtBuscar.grabFocus();
 				  }
@@ -181,11 +185,8 @@ public class Vista_Modificador extends JFrame implements Observador{
 				    
 			}else if(getTitle().equals("Estado de Solicitud")) {
 				
-				if(txtBuscar.getText().equals("admin")) {
-					editSolicitudFrame.setBounds(5, 79, 842, 385);
-					internalFrame.setVisible(false);
-				}
-				
+		           procesar();
+				   internalFrame.setVisible(false);
 			   }
 				
 		     }else if(e.getSource() ==btnSaldar){
@@ -196,12 +197,9 @@ public class Vista_Modificador extends JFrame implements Observador{
 				       if(validateEntry()) {
 					 
 					            modelo.getPerson().setNombre_Persona(txtName.getText());
-					            
 					            modelo.getPerson().setApellido(txtLastName.getText());
 					            modelo.getPerson().setDireccion(new Direccion(txtStreet.getText(),txtSector.getText(),txtCity.getText()));
 					            modelo.getPerson().setContacto(new Contacto(txtEmail.getText(),txtPhoneNumber.getText()));
-					            
-					            
 					            double salario = Double.parseDouble(txtSalarioSolicitante.getText());
 					            modelo.getPerson().getEmpleo().setSalario(salario);
 					            double monto = Double.parseDouble(txtMontoSolicitado.getText());
@@ -242,17 +240,15 @@ public class Vista_Modificador extends JFrame implements Observador{
 		txtStreet.setText(modelo.getPerson().getDireccion().getCalle());
 		txtSector.setText(modelo.getPerson().getDireccion().getSector());
 		txtCity.setText(modelo.getPerson().getDireccion().getCiudad());
-		
 		txtSalarioSolicitante.setText(""+modelo.getPerson().getEmpleo().getSalario());
-        // Metodo para redondear
 		DecimalFormat round = new DecimalFormat("#.00");
-	   //round.format(modelo.getSolicitud().getMonto_solicitado());
-	
-	   txtMontoSolicitado.setText(round.format(modelo.getSolicitud().getMonto_solicitado()));
-	// txtMontoSolicitado.setText(modelo.getSolicitud().getMonto_solicitado()+"");
+	    txtMontoSolicitado.setText(round.format(modelo.getSolicitud().getMonto_solicitado()));
 		String plazo = modelo.getSolicitud().getPlazo_en_meses() + " meses";
 		plazoCombo.setSelectedItem(plazo);
 		txtNumSolicitud.setText(modelo.getSolicitud().getNum_solicitud() + "");
+		txtEstadoSolicitud.setText(modelo.getSolicitud().getEstatus());
+	    commentTextPane.setText(modelo.getSolicitud().getRazonDeclinacion());
+
 		editSolicitudFrame.setBounds(5, 79, 842, 385);
 	 }else {
 		 JOptionPane.showMessageDialog(null, "Esta Cedula No Tiene Ninguna Solicitud Registrada !");
@@ -416,7 +412,7 @@ public class Vista_Modificador extends JFrame implements Observador{
 		
 		
 		
-		//setBounds(100, 100, 869, 551);
+		setBounds(100, 100, 869, 551);
 		
 		
 		
@@ -610,7 +606,7 @@ public class Vista_Modificador extends JFrame implements Observador{
 		panel_2.setBackground(new Color(204, 204, 255));  
 		//panel_2.setBounds(0, 0, 633, 419); // uncomment this to edit
 		
-		//panel_2.setBounds(0, 0, 853, 478);
+		panel_2.setBounds(0, 0, 853, 478);
 		
 		//panel_2.setBounds(10, 11, 564, 375);
 		
@@ -715,7 +711,7 @@ public class Vista_Modificador extends JFrame implements Observador{
 		btnSaldar.setBounds(445, 222, 89, 23);
 		internalFrame.getContentPane().add(btnSaldar);
 		
-		editSolicitudFrame = new JInternalFrame("New JInternalFrame");
+		editSolicitudFrame = new JInternalFrame("");
 		editSolicitudFrame.setBorder(null);
 		
 		//editSolicitudFrame.setBounds(0, 79, 853, 399); // uncomment this to edit the panel..**********************************
@@ -853,6 +849,32 @@ public class Vista_Modificador extends JFrame implements Observador{
 		btnGuardarCambios.setBounds(730, 353, 100, 30);
 		
 		editSolicitudFrame.getContentPane().add(btnGuardarCambios);
+		
+		JLabel lblEstadoSolicitud = new JLabel("Estado Solicitud");
+		lblEstadoSolicitud.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblEstadoSolicitud.setBounds(344, 226, 123, 21);
+		editSolicitudFrame.getContentPane().add(lblEstadoSolicitud);
+		
+		txtEstadoSolicitud = new JTextField();
+		txtEstadoSolicitud.setEditable(false);
+		txtEstadoSolicitud.setColumns(10);
+		txtEstadoSolicitud.setBounds(490, 223, 172, 20);
+		editSolicitudFrame.getContentPane().add(txtEstadoSolicitud);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(490, 271, 211, 75);
+		editSolicitudFrame.getContentPane().add(scrollPane);
+		
+		commentTextPane = new JTextPane();
+		commentTextPane.setBackground(SystemColor.menu);
+		commentTextPane.setEditable(false);
+		scrollPane.setViewportView(commentTextPane);
+		
+		JLabel lblComentario = new JLabel("Comentario");
+		lblComentario.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblComentario.setBounds(344, 275, 123, 21);
+		editSolicitudFrame.getContentPane().add(lblComentario);
 		editSolicitudFrame.setVisible(true);
 		internalFrame.setVisible(true);
 		

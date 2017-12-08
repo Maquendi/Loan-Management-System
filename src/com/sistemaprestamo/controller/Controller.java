@@ -236,8 +236,28 @@ public class Controller {
 				
 			}
 			
-			pst.close();
-			rs.close();
+			if(sol.getEstatus().equals("Declinada")) {
+				
+				try {
+				  String sql = "SELECT * from solicitud_declinada where solicitud_declinada.id_solicitud = ?";
+				  pst = conn.prepareStatement(sql);
+				  pst.setInt(1,sol.getNum_solicitud());
+				  rs = pst.executeQuery();
+				  
+				  while(rs.next()) {
+					  sol.setRazonDeclinacion(rs.getString(3));
+				  }
+				
+				  
+			
+				}catch(SQLException e) {
+					e.printStackTrace();
+			  }
+				
+		   }
+			
+			 pst.close();
+			 rs.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
