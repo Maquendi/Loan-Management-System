@@ -9,7 +9,6 @@ public class Modelo implements Observablee{
 	private JEFE jefe;
 	private Cliente cliente;
 	private Solicitud solicitud;
-	private Prestamo prestamo;
 	private Interes interes;
 	private Caso caso;
 	private ArrayList<Observador> observadores;
@@ -24,7 +23,6 @@ public class Modelo implements Observablee{
 		this.jefe = new JEFE();
 		this.cliente = new Cliente();
 		this.solicitud = new Solicitud();
-		this.prestamo = new Prestamo();
 		this.interes = new Interes();
 		this.caso = new Caso();
 	}
@@ -38,7 +36,6 @@ public class Modelo implements Observablee{
 		jefe = model.getJefe();
 		cliente = model.getCliente();
 		solicitud = model.getSolicitud();
-		prestamo = model.getPrestamo();
 		interes = model.getInteres();
 		caso = model.getCaso();
 	}
@@ -81,22 +78,12 @@ public class Modelo implements Observablee{
 		
 	}
 
-	public Prestamo getPrestamo() {
-		return prestamo;
-	}
-
-	public void setPrestamo(Prestamo prestamo) {
-		this.prestamo = prestamo;
-		
-	}
-
 	public Interes getInteres() {
-		return interes;
+		return this.interes;
 	}
 
 	public void setInteres(Interes interes) {
 		this.interes = interes;
-		
 	}
 
 	public Caso getCaso() {

@@ -1,86 +1,41 @@
 package com.sistemaprestamo.model;
 
-import java.util.Calendar;
 import java.util.Date;
 
-public class Prestamo implements Modificable{
+public class Prestamo{
 
 	
 	private int id_prestamo;
 	private String tipo_prestamo;
-	private float monto_prestado;
+	private int tipoPrestamo;
+	private double monto_prestado;
+	private String plazo;
 	private Date fecha_inicio_prestamo;
 	private Date fecha_final_prestamo;
-	private long max_tiempo;   // tiempo limite para cada prestamo.............
-	private float monto_max;  // monto maximo al que califica el cliente.......
 	private Interes interest;
-    private float cuota_mensual;
-    private float total;
+    private double cuota_mensual;
+    private double total;
+    private int id_Aprobacion;
 
 	
-	
-	
-    
-    
-    
-	
-	public Prestamo() {
 		
-		this.id_prestamo = 0;
-		this.tipo_prestamo = "";
-		this.monto_prestado = 0.0f;
-		setFecha_inicial();
-		defaultMaxTime();
-	}
+	public Prestamo() {}
 
-
-
-	public Prestamo(String tipo_p) {
-		
-		this.id_prestamo = 0;
-		this.tipo_prestamo = tipo_p;
-		this.monto_prestado = 0.0f;
-		setFecha_inicial();
-		defaultMaxTime();
-	}
 
 	
-	
-	private void setTotalDeuda() {
-		
-		float monthRate = (interest.getValor() * monto_prestado);
-		total = monto_prestado + monthRate;
-	}
-	
-	public float getDeudaTotal() {
-		
-		setTotalDeuda();
+	public double getDeudaTotal() {
 		return total;
 	}
 	
-	
-	private void calcularCuotaMensual() {
 		
-	     int[] duracion = this.getDuracionPrestamo();
-	     
-	     int anos = duracion[0];
-	     int mes = duracion[1];
-	     mes +=(anos*12);    
-	     float temp = monto_prestado/mes;
-	     float monthlyRate = temp * interest.getValor();
-	     this.cuota_mensual = temp+ monthlyRate;   
-	     
-	     System.out.println(mes);
-	     
-	}
-	
-	
-	public float getCuotaMensual() {
+	public double getCuotaMensual() {
 		
-		calcularCuotaMensual();
 		return this.cuota_mensual;
 	}
 	
+	public void setCuota_Mensual(double cuota) {
+		cuota_mensual = cuota;
+	}
 	
 	public void setInteres(Interes interes) {
 		
@@ -92,90 +47,7 @@ public class Prestamo implements Modificable{
 		return this.interest; 
 	}
 	
-	
-	
-	
-    private void defaultMaxTime() {
-    	
-	if(tipo_prestamo.equalsIgnoreCase("Prestamos Educativos")) {
-			
-			this.max_tiempo = 157766400016L;
-			
-		}else if(tipo_prestamo.equalsIgnoreCase("Prestamos Hipotecarios")) {
-			
-			this.max_tiempo = 315532800015L;
-			
-		}else if(tipo_prestamo.equalsIgnoreCase("Prestamos Personales")) {
-			
-			this.max_tiempo = 63072000016L;
-		}
-    	
-    }
-	
-	
-	
-	
-	
-	
-	
-	
-	public void setMaxTiempo(final long maxTime) {
-		this.max_tiempo = maxTime;	
-	}
-	
-	
-	
-	public long getMaxTiempo() {
-		return this.max_tiempo;
-	}
-	
-	
-	public int[] getDuracionPrestamo() {
-	
 		
-		long difference  = this.fecha_final_prestamo.getTime() - this.fecha_inicio_prestamo.getTime();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(difference);
-		
-		int year = calendar.get(Calendar.YEAR) - 1970;
-		int month = calendar.get(Calendar.MONTH);
-		int day = calendar.get(Calendar.DATE);
-		
-		int[] resul = {year,month,day};
-		 return resul;
-	}
-	
-	
-	
-	
-	
-	
-	/*
-	public void calcularIntereses() {
-		
-		
-		if(tipo_prestamo.equalsIgnoreCase("Prestamos Hipotecarios")) {
-			
-			this.interes_mensual = 0.12f;
-			this.interes_anual = 0.30f;
-			
-		}else if(tipo_prestamo.equalsIgnoreCase("Prestamos Personales")) {
-			
-			this.interes_mensual = 0.25f;
-			this.interes_anual = .015f;
-			
-		}else if(tipo_prestamo.equalsIgnoreCase("Prestamos educativos")) {
-			
-			this.interes_mensual = 0.4f;
-			this.interes_anual = 0.26f;
-		}
-		
-	}
-	
-	*/
-	
-	
-	
 	public int getId_prestamo() {
 		return id_prestamo;
 	}
@@ -199,140 +71,29 @@ public class Prestamo implements Modificable{
 	}
 
 
+	public void setmonto_prestamo(double monto) {
+	
+		this.monto_prestado = monto;
+	}
 
-	public float getMonto_prestamo() {
+	public double getMonto_prestamo() {
 		return monto_prestado;
 	}
-
-
-
-	public boolean aprobarMonto(float monto) {
-		
-		boolean isDone = false;
-		
-		if(monto <= monto_max) {
-		   monto_prestado = monto;
-		   isDone = true;
-	
-		}else { isDone = false; }
-		
-		return isDone;
-		
-	}
-
 
 
 	public Date getFecha_inicio_prestamo() {
 		return fecha_inicio_prestamo;
 	}
 
-
-
-	private void setFecha_inicial() {
-		
-		fecha_inicio_prestamo = new Date();
-	}
-
+    public void setFecha_inicio_prestamo(Date inicio) {
+    	this.fecha_inicio_prestamo = inicio;
+    }
 
 
 	public Date getFecha_final_prestamo() {
 		return fecha_final_prestamo;
 	}
 
-
-	
-	
-	
-
-	public void setFecha_final_prestamo(Date fin){
-		
-		long diferencia = fecha_inicio_prestamo.getTime() - fin.getTime();
-		
-		if(tipo_prestamo.equalsIgnoreCase("Prestamos Personales")) {
-			
-			if(diferencia <= this.max_tiempo){
-				
-				this.fecha_final_prestamo = fin;
-				
-			 }else { this.fecha_final_prestamo = null; }
-			
-		}else if(tipo_prestamo.equalsIgnoreCase("Prestamos educativos")) {
-			
-			if(diferencia <= this.max_tiempo) {
-				
-				this.fecha_final_prestamo = fin;
-			}else {
-				
-				this.fecha_final_prestamo = null;
-			}
-			
-		}else if(tipo_prestamo.equalsIgnoreCase("Prestamos Hipotecarios")) {
-			
-			if(diferencia <= this.max_tiempo) {
-				
-				this.fecha_final_prestamo = fin;
-			}else {
-				   this.fecha_final_prestamo = null;
-			  }
-		
-           }
-		
-	}
-	
-	
-	
-	public float getMaxMontoApproved(float salario) {
-		
-		monto_max = getMaxMontoApproved(salario, this.tipo_prestamo);
-		
-		return monto_max;
-	}
-	
-	
-	
-	public static float getMaxMontoApproved(float salary,String tipoP) {
-		
-		float monto = 0.0f;
-	  
-		if(salary < 10000f) {
-			
-			monto = 0.0f;
-			
-		}else {
-			
-			  if(tipoP.equalsIgnoreCase("Prestamos Personales")) {
-			
-			     monto = salary * (4/7f)*10f;
-			
-		        }else if(tipoP.equalsIgnoreCase("Prestamos educativos")) {
-			
-			         monto = salary * (6/8f) * 10f;
-			
-		         }else { monto = salary* (9/10f) *10f;
-		       }
-		  
-		    }
-		
-		  return monto;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	public String getPrestamoInterestRateInfo() {
-		
-	      float intRate = interest.getValor();
-		  String tipo_Interes = interest.getTipo_interes();
-		  String periodo = interest.getPeriodo();
-		
-		return tipo_Interes + ", " + intRate + ", "+periodo;
-	}
-	
-	
 	
 	@Override
 	public String toString() {
@@ -341,12 +102,39 @@ public class Prestamo implements Modificable{
 				+ fecha_final_prestamo + "\n";
 	}
 
+	
+	public int getTipoPrestamo() {
+		return tipoPrestamo;
+	}
 
 
-	@Override
-	public void modificar() {
-		// TODO Auto-generated method stub
-		
+
+	public void setTipoPrestamo(int tipoPrestamo) {
+		this.tipoPrestamo = tipoPrestamo;
+	}
+
+
+
+	public String getPlazo() {
+		return plazo;
+	}
+
+
+
+	public void setPlazo(String plazo) {
+		this.plazo = plazo;
+	}
+
+
+
+	public int getId_Aprobacion() {
+		return id_Aprobacion;
+	}
+
+
+
+	public void setId_Aprobacion(int id_Aprobacion) {
+		this.id_Aprobacion = id_Aprobacion;
 	}
 	
 	

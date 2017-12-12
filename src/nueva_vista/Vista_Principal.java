@@ -32,6 +32,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 
 import com.sistemaprestamo.controller.Controller;
+import com.sistemaprestamo.model.Cliente;
 import com.sistemaprestamo.model.Contacto;
 import com.sistemaprestamo.model.Direccion;
 import com.sistemaprestamo.model.Empleo;
@@ -98,19 +99,19 @@ public class Vista_Principal extends JFrame {
     private JTextField txtBuscarcliente;
     private JLabel lblFechaUltimoPago;
     private JLabel lblFechaInicioPrestamo;
-    private JTextField txtHolaMundo_4;
-    private JTextField txtHolaMundo_5;
+    private JTextField txtInicioPrestamo;
+    private JTextField txtMontoPrestamo;
     private JLabel lblEstatusCliente;
     private JTextField txtbalance;
     private JLabel lblTelefono_1;
     private JLabel lblEmail_1;
     private JTextField txtultimoPago;
     private JLabel label;
-    private JTextField txtHolaMundo_7;
+    private JTextField txtPendiente;
     private JPanel panelDePagos;
     private JPanel panel;
     private JTextField txtmonto;
-    private JTextField txtHolaMundo_6;
+    private JTextField txtAmortizado;
     private JButton btnSearchClients;
     private JPanel panelSearchClient;
     private JTextField txtSector;
@@ -121,8 +122,8 @@ public class Vista_Principal extends JFrame {
     private Controller controller;
     private JDateChooser datetiempoLab;
     private JTextField txtEmpresaTel;
-    private JTextField txtNoCliente;
-    JButton btnBucar;
+    private JTextField txtIDCLiente;
+    JButton btnBucar,btnSometerPago;
    
     
   
@@ -177,10 +178,83 @@ public class Vista_Principal extends JFrame {
 		btnSaldarUnPrestamo.addActionListener(new EventosBotonClick());
 		btnEditSolicitud.addActionListener(new EventosBotonClick());
 		bntVerStadoSolicitud.addActionListener(new EventosBotonClick());
+		
+		
+		btnBucar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				System.out.println("click BTNBUSCAR");
+				String cedula = txtBuscarcliente.getText();
+				
+				if(!cedula.isEmpty()){
+					
+					try{
+						Cliente client = controller.getCliente(cedula);
+						
+					    takePayments(client);
+						
+						
+						
+						
+						
+						
+						
+					}catch(NullPointerException e) {
+						 JOptionPane.showMessageDialog(null,"Ningun Registro Con Categoria Cliente Exite Con esta Cedula");
+					}
+					
+					
+					
+				    	  
+					
+				}else {
+					JOptionPane.showMessageDialog(null,"Error, Campo De Busqueda Vacia !!");
+				}
+				
+				
+				
+				
+			}
+		});
+		
+		
+		
+		btnSometerPago.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+						
+			
+			
+			}
+		
+		});
+		
 	}
 	
 	
 
+	
+	
+	
+	private void takePayments(Cliente client) {
+		
+		
+		txtIDCLiente.setText(client.getID() + "");
+		this.txtnombrecliente.setText(client.getNombre_Persona() + " " + client.getApellido());
+		txtMontoPrestamo.setText(client.getPrestamo().getMonto_prestamo() + " $DOP");
+		
+		
+		/*
+		txtbalance
+		txtUltimoPago
+		txtMonto
+		txt
+		txtInicioPrestamo
+		txtMontoPrestamo
+		txtAmortizado,
+		txtPendiente*/
+		
+		
+	}
 	
 	
 	private boolean validateEntry() {
@@ -576,7 +650,7 @@ public class Vista_Principal extends JFrame {
 		
 		panelDePagos = new JPanel();
 		panelDePagos.setForeground(new Color(160, 82, 45));
-		//panelDePagos.setBounds(221, 149, 754, 426); // uncomment this to edit the panel **********************************************
+		panelDePagos.setBounds(221, 149, 754, 426); // uncomment this to edit the panel **********************************************
 		panelDePagos.setBackground(Color.DARK_GRAY);           
 		panelDePagos.setBorder(new EtchedBorder(EtchedBorder.RAISED, new Color(102, 153, 153), new Color(102, 153, 153)));
 		mainDataPanel.add(panelDePagos);
@@ -852,10 +926,10 @@ public class Vista_Principal extends JFrame {
 		txtnombrecliente.setFont(new Font("Serif", Font.BOLD, 13));
 		txtnombrecliente.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtnombrecliente.setBackground(new Color(255, 255, 255));
-		txtnombrecliente.setBounds(113, 179, 130, 20);
+		txtnombrecliente.setBounds(113, 179, 174, 20);
 		txtnombrecliente.setColumns(10);
 		
-		lblNoCliente = new JLabel("No Cliente");
+		lblNoCliente = new JLabel("ID Cliente");
 		lblNoCliente.setForeground(Color.WHITE);
 		lblNoCliente.setBounds(20, 126, 71, 27);
 		lblNoCliente.setFont(new Font("Serif", Font.PLAIN, 16));
@@ -880,29 +954,29 @@ public class Vista_Principal extends JFrame {
 		lblFechaInicioPrestamo.setBounds(331, 133, 96, 22);
 		lblFechaInicioPrestamo.setFont(new Font("Serif", Font.PLAIN, 16));
 		
-		txtHolaMundo_4 = new JTextField();
-		txtHolaMundo_4.setEnabled(false);
-		txtHolaMundo_4.setSelectionColor(SystemColor.scrollbar);
-		txtHolaMundo_4.setHorizontalAlignment(SwingConstants.CENTER);
-		txtHolaMundo_4.setForeground(new Color(51, 0, 51));
-		txtHolaMundo_4.setFont(new Font("Serif", Font.BOLD, 13));
-		txtHolaMundo_4.setBorder(new EmptyBorder(0, 0, 0, 0));
-		txtHolaMundo_4.setBackground(new Color(255, 255, 255));
-		txtHolaMundo_4.setBounds(445, 135, 132, 20);
-		txtHolaMundo_4.setColumns(10);
+		txtInicioPrestamo = new JTextField();
+		txtInicioPrestamo.setEnabled(false);
+		txtInicioPrestamo.setSelectionColor(SystemColor.scrollbar);
+		txtInicioPrestamo.setHorizontalAlignment(SwingConstants.CENTER);
+		txtInicioPrestamo.setForeground(new Color(51, 0, 51));
+		txtInicioPrestamo.setFont(new Font("Serif", Font.BOLD, 13));
+		txtInicioPrestamo.setBorder(new EmptyBorder(0, 0, 0, 0));
+		txtInicioPrestamo.setBackground(new Color(255, 255, 255));
+		txtInicioPrestamo.setBounds(445, 135, 174, 20);
+		txtInicioPrestamo.setColumns(10);
 		
-		txtHolaMundo_5 = new JTextField();
-		txtHolaMundo_5.setEnabled(false);
-		txtHolaMundo_5.setSelectionColor(SystemColor.scrollbar);
-		txtHolaMundo_5.setHorizontalAlignment(SwingConstants.CENTER);
-		txtHolaMundo_5.setForeground(new Color(51, 0, 51));
-		txtHolaMundo_5.setFont(new Font("Serif", Font.BOLD, 13));
-		txtHolaMundo_5.setBorder(new EmptyBorder(0, 0, 0, 0));
-		txtHolaMundo_5.setBackground(new Color(255, 255, 255));
-		txtHolaMundo_5.setBounds(445, 179, 132, 20);
-		txtHolaMundo_5.setColumns(10);
+		txtMontoPrestamo = new JTextField();
+		txtMontoPrestamo.setEnabled(false);
+		txtMontoPrestamo.setSelectionColor(SystemColor.scrollbar);
+		txtMontoPrestamo.setHorizontalAlignment(SwingConstants.CENTER);
+		txtMontoPrestamo.setForeground(new Color(51, 0, 51));
+		txtMontoPrestamo.setFont(new Font("Serif", Font.BOLD, 13));
+		txtMontoPrestamo.setBorder(new EmptyBorder(0, 0, 0, 0));
+		txtMontoPrestamo.setBackground(new Color(255, 255, 255));
+		txtMontoPrestamo.setBounds(445, 179, 174, 20);
+		txtMontoPrestamo.setColumns(10);
 		
-		lblEstatusCliente = new JLabel("Cuotas Vencidas");
+		lblEstatusCliente = new JLabel("Amortizado");
 		lblEstatusCliente.setForeground(Color.WHITE);
 		lblEstatusCliente.setBounds(331, 222, 105, 23);
 		lblEstatusCliente.setFont(new Font("Serif", Font.PLAIN, 16));
@@ -915,7 +989,7 @@ public class Vista_Principal extends JFrame {
 		txtbalance.setFont(new Font("Serif", Font.BOLD, 13));
 		txtbalance.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtbalance.setBackground(new Color(255, 255, 255));
-		txtbalance.setBounds(113, 224, 130, 20);
+		txtbalance.setBounds(113, 224, 174, 20);
 		txtbalance.setColumns(10);
 		
 		lblTelefono_1 = new JLabel("Balance ");
@@ -936,7 +1010,7 @@ public class Vista_Principal extends JFrame {
 		txtultimoPago.setFont(new Font("Serif", Font.BOLD, 13));
 		txtultimoPago.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtultimoPago.setBackground(new Color(255, 255, 255));
-		txtultimoPago.setBounds(113, 267, 130, 20);
+		txtultimoPago.setBounds(113, 267, 174, 20);
 		txtultimoPago.setColumns(10);
 		
 		label = new JLabel("Estatus Cliente");
@@ -944,16 +1018,16 @@ public class Vista_Principal extends JFrame {
 		label.setBounds(331, 265, 96, 20);
 		label.setFont(new Font("Serif", Font.PLAIN, 16));
 		
-		txtHolaMundo_7 = new JTextField();
-		txtHolaMundo_7.setEnabled(false);
-		txtHolaMundo_7.setSelectionColor(SystemColor.scrollbar);
-		txtHolaMundo_7.setHorizontalAlignment(SwingConstants.CENTER);
-		txtHolaMundo_7.setForeground(new Color(51, 0, 51));
-		txtHolaMundo_7.setFont(new Font("Serif", Font.BOLD, 13));
-		txtHolaMundo_7.setBorder(new EmptyBorder(0, 0, 0, 0));
-		txtHolaMundo_7.setBackground(new Color(255, 255, 255));
-		txtHolaMundo_7.setBounds(445, 267, 132, 20);
-		txtHolaMundo_7.setColumns(10);
+		txtPendiente = new JTextField();
+		txtPendiente.setEnabled(false);
+		txtPendiente.setSelectionColor(SystemColor.scrollbar);
+		txtPendiente.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPendiente.setForeground(new Color(51, 0, 51));
+		txtPendiente.setFont(new Font("Serif", Font.BOLD, 13));
+		txtPendiente.setBorder(new EmptyBorder(0, 0, 0, 0));
+		txtPendiente.setBackground(new Color(255, 255, 255));
+		txtPendiente.setBounds(445, 267, 174, 20);
+		txtPendiente.setColumns(10);
 		panelDePagos.setLayout(null);
 		panelDePagos.add(lblNoCliente);
 		panelDePagos.add(txtBuscarcliente);
@@ -967,17 +1041,16 @@ public class Vista_Principal extends JFrame {
 		panelDePagos.add(lblFechaUltimoPago);
 		panelDePagos.add(lblEstatusCliente);
 		panelDePagos.add(label);
-		panelDePagos.add(txtHolaMundo_7);
-		panelDePagos.add(txtHolaMundo_5);
-		panelDePagos.add(txtHolaMundo_4);
+		panelDePagos.add(txtPendiente);
+		panelDePagos.add(txtMontoPrestamo);
+		panelDePagos.add(txtInicioPrestamo);
 		
-		JButton btnSometerPago = new JButton("Enter");
-		btnSometerPago.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				
-			}
-		});
+		btnSometerPago = new JButton("Enter");
+	
+		
+		
+		
+		
 		btnSometerPago.setFont(new Font("Serif", Font.PLAIN, 13));
 		btnSometerPago.setBorder(UIManager.getBorder("RadioButton.border"));
 		btnSometerPago.setForeground(new Color(102, 51, 204));
@@ -992,25 +1065,25 @@ public class Vista_Principal extends JFrame {
 		
 		txtmonto = new JTextField();
 		txtmonto.setColumns(10);
-		txtmonto.setBounds(111, 314, 130, 22);
+		txtmonto.setBounds(111, 314, 176, 22);
 		panelDePagos.add(txtmonto);
 		
-		txtHolaMundo_6 = new JTextField();
-		txtHolaMundo_6.setEnabled(false);
-		txtHolaMundo_6.setSelectionColor(SystemColor.scrollbar);
-		txtHolaMundo_6.setHorizontalAlignment(SwingConstants.CENTER);
-		txtHolaMundo_6.setForeground(new Color(51, 0, 51));
-		txtHolaMundo_6.setFont(new Font("Serif", Font.BOLD, 13));
-		txtHolaMundo_6.setBorder(new EmptyBorder(0, 0, 0, 0));
-		txtHolaMundo_6.setBackground(new Color(255, 255, 255));
-		txtHolaMundo_6.setColumns(10);
-		txtHolaMundo_6.setBounds(445, 224, 132, 20);
-		panelDePagos.add(txtHolaMundo_6);
+		txtAmortizado = new JTextField();
+		txtAmortizado.setEnabled(false);
+		txtAmortizado.setSelectionColor(SystemColor.scrollbar);
+		txtAmortizado.setHorizontalAlignment(SwingConstants.CENTER);
+		txtAmortizado.setForeground(new Color(51, 0, 51));
+		txtAmortizado.setFont(new Font("Serif", Font.BOLD, 13));
+		txtAmortizado.setBorder(new EmptyBorder(0, 0, 0, 0));
+		txtAmortizado.setBackground(new Color(255, 255, 255));
+		txtAmortizado.setColumns(10);
+		txtAmortizado.setBounds(445, 224, 174, 20);
+		panelDePagos.add(txtAmortizado);
 		
 		JLabel lblrd = new JLabel("$RD");
 		lblrd.setForeground(Color.WHITE);
 		lblrd.setFont(new Font("Serif", Font.PLAIN, 12));
-		lblrd.setBounds(242, 314, 26, 21);
+		lblrd.setBounds(294, 313, 26, 21);
 		panelDePagos.add(lblrd);
 		
 		JLabel lblBuscarCliente = new JLabel("Buscar Cliente");
@@ -1032,18 +1105,18 @@ public class Vista_Principal extends JFrame {
 		grupo.add(rdbnombre);
 		
 		
-		txtNoCliente = new JTextField();
-		txtNoCliente.setEnabled(false);
-		txtNoCliente.setEditable(false);
-		txtNoCliente.setSelectionColor(SystemColor.scrollbar);
-		txtNoCliente.setHorizontalAlignment(SwingConstants.CENTER);
-		txtNoCliente.setForeground(new Color(51, 0, 51));
-		txtNoCliente.setFont(new Font("Serif", Font.BOLD, 13));
-		txtNoCliente.setColumns(10);
-		txtNoCliente.setBorder(new EmptyBorder(0, 0, 0, 0));
-		txtNoCliente.setBackground(Color.WHITE);
-		txtNoCliente.setBounds(113, 130, 130, 20);
-		panelDePagos.add(txtNoCliente);
+		txtIDCLiente = new JTextField();
+		txtIDCLiente.setEnabled(false);
+		txtIDCLiente.setEditable(false);
+		txtIDCLiente.setSelectionColor(SystemColor.scrollbar);
+		txtIDCLiente.setHorizontalAlignment(SwingConstants.CENTER);
+		txtIDCLiente.setForeground(new Color(51, 0, 51));
+		txtIDCLiente.setFont(new Font("Serif", Font.BOLD, 13));
+		txtIDCLiente.setColumns(10);
+		txtIDCLiente.setBorder(new EmptyBorder(0, 0, 0, 0));
+		txtIDCLiente.setBackground(Color.WHITE);
+		txtIDCLiente.setBounds(113, 130, 174, 20);
+		panelDePagos.add(txtIDCLiente);
 		
 		btnBucar = new JButton("Bucar");
 		
@@ -1214,14 +1287,19 @@ public class Vista_Principal extends JFrame {
 				  panelDePagos.setVisible(true);
 		          
 			}else if(e.getSource() ==btnEditCuenta) {
+				
 				new Vista_Modificador("btnEditCuenta",controller);
+				
 			}else if(e.getSource() == btnSaldarUnPrestamo) {
+				
 				new Vista_Modificador("btnSaldarUnPrestamo",controller);
 				
 			}else if(e.getSource() == btnEditSolicitud) {
+				
 				new Vista_Modificador("btnEditSolicitud",controller);
 				
 			}else if(e.getSource() == bntVerStadoSolicitud) {
+				
 				new Vista_Modificador("bntVerStadoSolicitud",controller);
 			}
 			else if (e.getSource()== btnBucar) {

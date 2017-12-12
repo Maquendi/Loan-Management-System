@@ -24,28 +24,180 @@ public class Controller {
 	
 	
 	
+	
+	private int getIdAprobacion(int numSol) {
+		
+		int id_AprobacionDeSolicitud =0;
+		String sql = "SELECT solicitud_aprobado.ID FROM solicitud_aprobado WHERE solicitud_aprobado.id_solicitud = ?";
+		try {
+			
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,numSol);
+			
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				id_AprobacionDeSolicitud = rs.getInt(1);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return id_AprobacionDeSolicitud;
+	}
+	
+
+	@SuppressWarnings("unused")
 	public Modelo getSolicitud(String cedula) {
 
-		Solicitud solicitud = new Solicitud();
+		Solicitud solicitud = null;
 		Modelo model = new Modelo();
-
+		Interes rate = null;
 		solicitud = getSolicituds(cedula);
 		
-		
-	
-		   if(solicitud != null ) {
-			   
-			    model.setPerson(getRegistro(cedula));
-				model.setSolicitud(solicitud);
-				return model;
-		   }else {
-			   
-			   return null;
+		if(solicitud != null) {
+			
+			Persona p = getRegistro(cedula);
+			model.setPerson(p);
+			model.setSolicitud(solicitud);
+			
+			if(solicitud.getEstatus().equals("Aprobado")) {
+				   rate = getInterestInfo(solicitud);
+					model.setInteres(rate);
+				    solicitud.setID_Aprobacion(getIdAprobacion(solicitud.getNum_solicitud()));
+					
+					if(p.getCategoria().equals("Cliente")) {
+						model.setCliente(new Cliente(readPrestamo(p)));
+					}
+			   }
+			
+			return model;
+			
+		}else {
+			    return null;
 		   }
 		   
 	}
 	
 	
+	
+	
+	public Cliente getCliente(String cedula) {
+
+		Cliente cliente = new Cliente();
+		Persona p = getRegistro(cedula);
+		
+		if(p != null && p.getCategoria().equals("Cliente")) {
+		
+		    cliente.setNombre_Persona(p.getNombre_Persona());
+		    cliente.setApellido(p.getApellido());
+            cliente.setID(p.getID());
+            cliente.setCategoria(p.getCategoria());
+            cliente.setContacto(p.getContacto());
+            cliente.setDireccion(p.getDireccion());
+            cliente.setFecha_nac(p.getFecha_nac());
+            cliente.setEmpleo(p.getEmpleo());
+            cliente.setNacionalidad(p.getNacionalidad());
+            cliente.setSexo(p.getSexo());
+            cliente.setPrestamo(readPrestamo(p));
+        
+		    return cliente;
+		
+		
+		}else {
+			
+			
+			return null;
+		}
+	}
+	
+	
+	
+	public void grabarPrestamo(Modelo model) {
+		
+		
+		Cliente client = model.getCliente();
+		Prestamo prestamo = client.getPrestamo();
+		Persona persona = model.getPerson();
+	
+		try {
+		
+			  String sql = "INSERT INTO prestamo (id_aprobacion,fecha_inicio,plazo,monto,mensualidad) VALUES(?,?,?,?,?)";
+			  pst = conn.prepareStatement(sql);
+	
+			  pst.setInt(1,prestamo.getId_Aprobacion());
+			  pst.setDate(2, new Date(prestamo.getFecha_inicio_prestamo().getTime()));
+			  pst.setString(3,prestamo.getPlazo());
+			  pst.setDouble(4, prestamo.getMonto_prestamo());
+			  pst.setDouble(5, prestamo.getCuotaMensual());
+			  int resul = pst.executeUpdate();
+			
+			  if(resul != 0) {
+				int id = nextPrestamoID();
+				String sql2 = "INSERT INTO cliente(id_prestamo,id_registro) VALUES(?,?)";
+				pst = conn.prepareStatement(sql2);
+				pst.setInt(1,id);
+				pst.setInt(2,client.getID());
+				pst.executeUpdate();
+				updateRegistro(persona);
+			}
+			
+		    pst.close();
+		   }catch(SQLException e) {
+			   e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	public Prestamo readPrestamo(Persona cliente) {
+		
+		String sql = "SELECT * FROM prestamo p JOIN solicitud_aprobado s on p.id_aprobacion = s.ID "
+				+ "JOIN solicitud so ON so.id_solicitud = s.id_solicitud WHERE so.id_registro = ?";
+		
+		Prestamo p = new Prestamo();
+		//10, 11
+		
+		
+		
+		try {
+			
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,cliente.getID());
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next()) {
+				
+				p.setId_prestamo(rs.getInt(1));
+				p.setId_Aprobacion(rs.getInt(2));
+				p.setFecha_inicio_prestamo(rs.getDate(3));
+				p.setPlazo(rs.getString(4));
+				p.setmonto_prestamo(rs.getDouble(5));
+				p.setCuota_Mensual(rs.getDouble(6));
+				String[] interes = rs.getString(10).split("\\%");
+				
+				p.setInteres(new Interes(rs.getString(11),interes[1],Float.parseFloat(interes[0])));
+				
+				p.setTipoPrestamo(rs.getInt(18));
+				if(p.getTipoPrestamo() == 1) {
+					p.setTipo_prestamo("Personal");
+				}else if(p.getTipoPrestamo() == 2) {
+					p.setTipo_prestamo("Educativo");
+				}else {
+					p.setTipo_prestamo("Hipotecario");
+				}
+				
+			}
+			
+			pst.close();
+			rs.close();
+		}catch(SQLException e) {
+			
+		}
+		
+	   return p;	
+	}
 	
 	
 	public void procesarSolicitud(Solicitud sol,double montoAprobado,Interes interes) {
@@ -64,8 +216,6 @@ public class Controller {
 			
 		}
 		
-		System.out.println("Estado: "+sol.getEstatus());
-		System.out.println("Numero: " + sol.getNum_solicitud());
 		
 		if(sol.getEstatus().equals("Aprobado")) {
 			
@@ -204,19 +354,20 @@ public class Controller {
 		
 		String consulta = "SELECT * from solicitud join registro on registro.id_persona = solicitud.id_registro "
 				+ "where registro.cedula = ?";
+		ResultSet rs = null;
 		
 		try {
 			
 			pst = conn.prepareStatement(consulta);
 			pst.setString(1,cedula);
-			ResultSet rs = pst.executeQuery();
+			rs = pst.executeQuery();
 			
 			while(rs.next()) {
 				
 				String tipoPrestamo;
 				
 				int t = rs.getInt(7);
-
+				
 				if (t == 1) {
 					tipoPrestamo = "Personal";
 				} else if (t == 2) {
@@ -233,41 +384,103 @@ public class Controller {
 				sol.setEstatus(rs.getString(5));
 				sol.setId_solicitante(rs.getInt(6));
 				sol.setTipo_prestamo(tipoPrestamo);
+				sol.setTipoPrestamos(t);
 				
 			}
 			
-			if(sol.getEstatus().equals("Declinada")) {
-				
-				try {
-				  String sql = "SELECT * from solicitud_declinada where solicitud_declinada.id_solicitud = ?";
-				  pst = conn.prepareStatement(sql);
-				  pst.setInt(1,sol.getNum_solicitud());
-				  rs = pst.executeQuery();
-				  
-				  while(rs.next()) {
-					  sol.setRazonDeclinacion(rs.getString(3));
-				  }
-				
-				  
-			
-				}catch(SQLException e) {
-					e.printStackTrace();
-			  }
-				
-		   }
-			
-			 pst.close();
-			 rs.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}
+				
+		
+		if(!found) {
+			return null;
 		}
 		
 		
-		if(found)
+			if(sol.getEstatus().equals("Declinada")) {
+				ResultSet resul=null;
+				
+				try {
+				  String sql = "SELECT * from solicitud_declinada where solicitud_declinada.id_solicitud = ?";
+				  
+				  pst = conn.prepareStatement(sql);
+				  pst.setInt(1,sol.getNum_solicitud());
+				  resul = pst.executeQuery();
+				  
+				  while(resul.next()) {
+					  sol.setRazonDeclinacion(resul.getString(3));
+				  }
+				
+				}catch(SQLException e) {
+					e.printStackTrace();
+			  }finally {
+				  try {
+					resul.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			  }
+					
+		   }
+			
+		 try {
+			pst.close();
+		 } catch (SQLException e) {
+			e.printStackTrace();
+	 }
+		
+			if(found)
 			return sol;
 		else
 			return null;
+}
+	
+	
+	
+	
+	
+	public Interes getInterestInfo(Solicitud sol) {
+		
+		
+		Interes rate = modelo.getInteres();
+	
+			   ResultSet resultado = null;
+			   try {
+					  String sql = "SELECT * from solicitud_aprobado where solicitud_aprobado.id_solicitud = ?";
+					  pst = conn.prepareStatement(sql);
+					  pst.setInt(1,sol.getNum_solicitud());
+					   resultado = pst.executeQuery();
+					  
+					  while(resultado.next()) {
+						  sol.setMonto_Aprobado(resultado.getDouble(3));
+						  
+						  String[] interes = resultado.getString(4).split("\\%");
+						  rate.setValor(Float.parseFloat(interes[0].trim()));
+						  rate.setPeriodo(interes[1].trim());
+						  rate.setTipo_interes(resultado.getString(5));
+					  }
+					  
+					}catch(SQLException e) {
+						e.printStackTrace();
+				  }finally {
+					 try {
+						resultado.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				  }
+		   
+		return rate;
 	}
+	
 	
 	
 	
@@ -400,6 +613,7 @@ public class Controller {
 	public Persona getRegistro(String cedula) {
 		
 		Persona p = new Persona();
+		boolean found = false;
 		
        String sql = "SELECT * FROM registro WHERE registro.cedula = ?";
        
@@ -423,6 +637,7 @@ public class Controller {
 			      p.setEmpleo(getEmpleo(p));
 			      p.setDireccion(getAddress(p));
 			      p.setContacto(getContact(p));
+			      found = true;
 			  		 
 			  }
 					
@@ -432,7 +647,12 @@ public class Controller {
 			   e.printStackTrace();
 	     }
 	
-		return p; 
+		if(found) {
+			return p; 
+		}else {
+			return null;
+		}
+		
 	}
 	
 	
@@ -549,6 +769,34 @@ public class Controller {
 		
 		return nextId;
 	}
+	
+	
+	
+  private int nextPrestamoID() {
+		
+		ResultSet rs = null;
+		int nextId = 0;
+		
+		try {
+			
+			pst = conn.prepareStatement("SELECT COUNT(*) FROM prestamo");
+			 rs = pst.executeQuery();
+			while(rs.next()) {
+			  nextId = rs.getInt(1);
+			}
+			
+			pst.close();
+			rs.close();
+		  } catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Error generating a foreign key for the table registro....");
+		}
+		
+		return nextId;
+	}
+	
+	
+	
 	
 	
 	
@@ -838,6 +1086,11 @@ public class Controller {
 		}
 		
 	}
+	
+	
+	
+	
+	
 	
 	
 	private void addUser(Empleado emp) {

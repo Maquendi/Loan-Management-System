@@ -8,8 +8,8 @@ public class Interes {
 		private float valor;
 		private String periodo;
 		
-		public Interes(String name,String per,float valor) {
-			this.tipo_interes = name;
+		public Interes(String tipo,String per,float valor) {
+			this.tipo_interes = tipo;
 			this.periodo = per;
 			this.valor = valor;	
 		}
@@ -42,6 +42,13 @@ public class Interes {
 		public void setValor(float valor) {
 			this.valor = valor;
 		}
-		
 
+		@Override
+		public String toString() {
+			return "Interes [tipo_interes=" + tipo_interes + ", valor=" + valor + ", periodo=" + periodo + "]";
+		}
+		
+		
+		
+		
 }

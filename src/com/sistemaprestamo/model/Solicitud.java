@@ -7,12 +7,14 @@ public class Solicitud implements Modificable{
 	private int num_solicitud;
 	private Date fecha_solicitud;
 	private double monto_solicitado;
+	private double monto_Aprobado;
 	private int plazo_en_meses;
 	private int id_solicitante;
 	private String tipo_prestamo;
 	private int tipoPrestamos;
 	private String estatus;
     private String razonDeclinacion;
+    private int ID_Aprobacion;
 	
 
 	@Override
@@ -142,6 +144,30 @@ public class Solicitud implements Modificable{
 
 	public void setRazonDeclinacion(String razonDeclinacion) {
 		this.razonDeclinacion = razonDeclinacion;
+	}
+
+
+
+	public double getMonto_Aprobado() {
+		return monto_Aprobado;
+	}
+
+
+
+	public void setMonto_Aprobado(double monto_Aprobado) {
+		this.monto_Aprobado = monto_Aprobado;
+	}
+
+
+
+	public int getID_Aprobacion() {
+		return ID_Aprobacion;
+	}
+
+
+
+	public void setID_Aprobacion(int id_estado) {
+		this.ID_Aprobacion = id_estado;
 	}
 	
 	
