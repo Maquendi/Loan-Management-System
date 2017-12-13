@@ -151,6 +151,122 @@ public class Controller {
 	
 	
 	
+	public Payment getPayment(Cliente client) {
+		
+		String sql = "SELECT * FROM pago WHERE pago.id_cliente = 1 order by pago.id_cliente";
+		Payment pago = new Payment();
+		
+		boolean valid = false;
+		
+		try {
+			
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,client.getID());
+			
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next()) {
+				valid = true;
+				pago.setId_payments(rs.getInt(1));
+				pago.setId_cliente(rs.getInt(2));
+				pago.setFecha_pago(rs.getDate(3));
+				pago.setValor(rs.getDouble(4));
+				pago.setAmortizado(rs.getDouble(5));
+				pago.setPendiente(rs.getDouble(6));
+			}
+			
+			pst.close();
+			rs.close();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		
+		}
+		
+		if(valid) {
+			return pago;
+		}else {
+			return null;
+		}
+		
+	}
+	
+	
+	
+	
+	
+	public void savePayment(Cliente client,Payment pago) {
+		
+		double amortizado = 0.0, pendiente = 0.0;
+		double pagoMensual = client.getPrestamo().getCuotaMensual();
+		
+		String meses = client.getPrestamo().getPlazo().substring(0,2);
+		
+		int mes = Integer.parseInt(meses.trim());
+		
+		
+	    
+	
+		
+		
+		
+		
+		String consulta = "SELECT sum(pago.valor) from pago where pago.id_cliente = ? ";
+		try {
+			
+			pst = conn.prepareStatement(consulta);
+			pst.setInt(1, client.getID());
+			
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next()) {
+				amortizado = rs.getDouble(1);
+			}
+			
+			
+			
+		}catch(SQLException e) {
+			
+		}
+		
+		
+		
+		
+        double total = pagoMensual * mes;
+		
+		pendiente = total - amortizado;
+		
+		pago.setAmortizado(amortizado);
+		pago.setPendiente(pendiente);
+		
+		
+		
+		String sql = "INSERT INTO pago(id_cliente,fecha_pago,valor,amortizado,pendiente) VALUES(?,?,?,?,?)";
+		try {
+			
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,client.getID());
+			pst.setDate(2,new Date(pago.getFecha_pago().getTime()));
+		    pst.setDouble(3,pago.getValor());
+		    pst.setDouble(4,pago.getAmortizado());
+		    pst.setDouble(5,pago.getPendiente());
+		    pst.executeQuery();
+			
+		}catch(SQLException e) {
+			
+			
+			
+		}
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
 	public Prestamo readPrestamo(Persona cliente) {
 		
 		String sql = "SELECT * FROM prestamo p JOIN solicitud_aprobado s on p.id_aprobacion = s.ID "

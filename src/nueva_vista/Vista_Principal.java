@@ -193,12 +193,6 @@ public class Vista_Principal extends JFrame {
 						
 					    takePayments(client);
 						
-						
-						
-						
-						
-						
-						
 					}catch(NullPointerException e) {
 						 JOptionPane.showMessageDialog(null,"Ningun Registro Con Categoria Cliente Exite Con esta Cedula");
 					}
@@ -241,15 +235,14 @@ public class Vista_Principal extends JFrame {
 		txtIDCLiente.setText(client.getID() + "");
 		this.txtnombrecliente.setText(client.getNombre_Persona() + " " + client.getApellido());
 		txtMontoPrestamo.setText(client.getPrestamo().getMonto_prestamo() + " $DOP");
+		this.txtInicioPrestamo.setText(client.getPrestamo().getFecha_inicio_prestamo().toString());
 		
 		
 		/*
 		txtbalance
 		txtUltimoPago
 		txtMonto
-		txt
-		txtInicioPrestamo
-		txtMontoPrestamo
+	
 		txtAmortizado,
 		txtPendiente*/
 		
@@ -922,8 +915,8 @@ public class Vista_Principal extends JFrame {
 		txtnombrecliente.setEnabled(false);
 		txtnombrecliente.setSelectionColor(SystemColor.scrollbar);
 		txtnombrecliente.setHorizontalAlignment(SwingConstants.CENTER);
-		txtnombrecliente.setForeground(new Color(51, 0, 51));
-		txtnombrecliente.setFont(new Font("Serif", Font.BOLD, 13));
+		txtnombrecliente.setForeground(Color.BLACK);
+		txtnombrecliente.setFont(new Font("Serif", Font.PLAIN, 15));
 		txtnombrecliente.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtnombrecliente.setBackground(new Color(255, 255, 255));
 		txtnombrecliente.setBounds(113, 179, 174, 20);
@@ -958,8 +951,8 @@ public class Vista_Principal extends JFrame {
 		txtInicioPrestamo.setEnabled(false);
 		txtInicioPrestamo.setSelectionColor(SystemColor.scrollbar);
 		txtInicioPrestamo.setHorizontalAlignment(SwingConstants.CENTER);
-		txtInicioPrestamo.setForeground(new Color(51, 0, 51));
-		txtInicioPrestamo.setFont(new Font("Serif", Font.BOLD, 13));
+		txtInicioPrestamo.setForeground(Color.BLACK);
+		txtInicioPrestamo.setFont(new Font("Serif", Font.PLAIN, 15));
 		txtInicioPrestamo.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtInicioPrestamo.setBackground(new Color(255, 255, 255));
 		txtInicioPrestamo.setBounds(445, 135, 174, 20);
@@ -969,8 +962,8 @@ public class Vista_Principal extends JFrame {
 		txtMontoPrestamo.setEnabled(false);
 		txtMontoPrestamo.setSelectionColor(SystemColor.scrollbar);
 		txtMontoPrestamo.setHorizontalAlignment(SwingConstants.CENTER);
-		txtMontoPrestamo.setForeground(new Color(51, 0, 51));
-		txtMontoPrestamo.setFont(new Font("Serif", Font.BOLD, 13));
+		txtMontoPrestamo.setForeground(Color.BLACK);
+		txtMontoPrestamo.setFont(new Font("Serif", Font.PLAIN, 15));
 		txtMontoPrestamo.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtMontoPrestamo.setBackground(new Color(255, 255, 255));
 		txtMontoPrestamo.setBounds(445, 179, 174, 20);
@@ -985,8 +978,8 @@ public class Vista_Principal extends JFrame {
 		txtbalance.setEnabled(false);
 		txtbalance.setSelectionColor(SystemColor.scrollbar);
 		txtbalance.setHorizontalAlignment(SwingConstants.CENTER);
-		txtbalance.setForeground(new Color(51, 0, 51));
-		txtbalance.setFont(new Font("Serif", Font.BOLD, 13));
+		txtbalance.setForeground(Color.BLACK);
+		txtbalance.setFont(new Font("Serif", Font.PLAIN, 15));
 		txtbalance.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtbalance.setBackground(new Color(255, 255, 255));
 		txtbalance.setBounds(113, 224, 174, 20);
@@ -1006,8 +999,8 @@ public class Vista_Principal extends JFrame {
 		txtultimoPago.setEnabled(false);
 		txtultimoPago.setSelectionColor(SystemColor.scrollbar);
 		txtultimoPago.setHorizontalAlignment(SwingConstants.CENTER);
-		txtultimoPago.setForeground(new Color(51, 0, 51));
-		txtultimoPago.setFont(new Font("Serif", Font.BOLD, 13));
+		txtultimoPago.setForeground(Color.BLACK);
+		txtultimoPago.setFont(new Font("Serif", Font.PLAIN, 15));
 		txtultimoPago.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtultimoPago.setBackground(new Color(255, 255, 255));
 		txtultimoPago.setBounds(113, 267, 174, 20);
@@ -1022,8 +1015,8 @@ public class Vista_Principal extends JFrame {
 		txtPendiente.setEnabled(false);
 		txtPendiente.setSelectionColor(SystemColor.scrollbar);
 		txtPendiente.setHorizontalAlignment(SwingConstants.CENTER);
-		txtPendiente.setForeground(new Color(51, 0, 51));
-		txtPendiente.setFont(new Font("Serif", Font.BOLD, 13));
+		txtPendiente.setForeground(Color.BLACK);
+		txtPendiente.setFont(new Font("Serif", Font.PLAIN, 15));
 		txtPendiente.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtPendiente.setBackground(new Color(255, 255, 255));
 		txtPendiente.setBounds(445, 267, 174, 20);
@@ -1064,6 +1057,8 @@ public class Vista_Principal extends JFrame {
 		panelDePagos.add(lblMonto);
 		
 		txtmonto = new JTextField();
+		txtmonto.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtmonto.setForeground(Color.BLACK);
 		txtmonto.setColumns(10);
 		txtmonto.setBounds(111, 314, 176, 22);
 		panelDePagos.add(txtmonto);
@@ -1072,8 +1067,8 @@ public class Vista_Principal extends JFrame {
 		txtAmortizado.setEnabled(false);
 		txtAmortizado.setSelectionColor(SystemColor.scrollbar);
 		txtAmortizado.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAmortizado.setForeground(new Color(51, 0, 51));
-		txtAmortizado.setFont(new Font("Serif", Font.BOLD, 13));
+		txtAmortizado.setForeground(Color.BLACK);
+		txtAmortizado.setFont(new Font("Serif", Font.PLAIN, 15));
 		txtAmortizado.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtAmortizado.setBackground(new Color(255, 255, 255));
 		txtAmortizado.setColumns(10);
@@ -1110,8 +1105,8 @@ public class Vista_Principal extends JFrame {
 		txtIDCLiente.setEditable(false);
 		txtIDCLiente.setSelectionColor(SystemColor.scrollbar);
 		txtIDCLiente.setHorizontalAlignment(SwingConstants.CENTER);
-		txtIDCLiente.setForeground(new Color(51, 0, 51));
-		txtIDCLiente.setFont(new Font("Serif", Font.BOLD, 13));
+		txtIDCLiente.setForeground(Color.BLACK);
+		txtIDCLiente.setFont(new Font("Serif", Font.PLAIN, 15));
 		txtIDCLiente.setColumns(10);
 		txtIDCLiente.setBorder(new EmptyBorder(0, 0, 0, 0));
 		txtIDCLiente.setBackground(Color.WHITE);

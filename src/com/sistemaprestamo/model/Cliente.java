@@ -3,6 +3,9 @@ package com.sistemaprestamo.model;
 public class Cliente extends Persona {
 	
 	private Prestamo mi_prestamo;
+	
+	
+	
 
 
 	public Cliente() {
